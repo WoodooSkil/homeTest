@@ -10,5 +10,7 @@ modules:
         - WebDriver:
             url: https://yandex.ru/
             browser: 'firefox'
+        - VisualCeption:
+              maximumDeviation: 5                                   # deviation in percent
         - \Helper\Acceptance
 step_decorators: ~

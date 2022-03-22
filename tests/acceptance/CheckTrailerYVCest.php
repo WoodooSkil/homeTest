@@ -1,5 +1,7 @@
 <?php
 
+use Page\VideoPage;
+
 class CheckTrailerYVCest
 {
     public function _before(AcceptanceTester $I)
@@ -10,17 +12,21 @@ class CheckTrailerYVCest
     public function tryToTest(AcceptanceTester $I)
     {
         $dat_searchText = 'ураган';
+        $page = new VideoPage();
 
         $I->wantTo('Проверить трейлер у видео, найденного по слову "' . $dat_searchText . '".');
 
         $I->goToVideoPage($I);
         $I->search($I, $dat_searchText);
 
-        //Check a preview without focus does not contain video
-        $I->dontSeeElement(\Page\VideoPage::$videoPreview);
+        $I->dontSeeElement($page::$videoPreview);
+        $I->dontSeeVisualChanges("videoWithoutFocusPreview", $page::$searchResultPreview);
 
-        //Check a video appear in preview after focus it
-        $I->moveMouseOver(\Page\VideoPage::$searchResult);
-        $I->waitForElementVisible(\Page\VideoPage::$videoPreview);
+        $I->moveMouseOver($page::$searchResult);
+        $I->waitForElementVisible($page::$videoPreview);
+
+        $I->dontSeeVisualChanges("videoWithFocusPreview", $page::$searchResultPreview);
+        $I->wait(1);
+        $I->dontSeeVisualChanges("videoWithoutFocusPreview1sec", $page::$searchResultPreview);
     }
 }
