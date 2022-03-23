@@ -20,4 +20,14 @@ class Acceptance extends \Codeception\Module
         $I->waitForElementNotVisible(\Page\VideoPage::$searchLoadCap);
     }
 
+    function deleteFilesIfExists($listOfFiles)
+    {
+        foreach ($listOfFiles as &$value) {
+            if (file_exists($value)) {
+                unlink($value);
+            }
+        }
+        unset($value);
+    }
+
 }
